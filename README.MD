@@ -17,3 +17,6 @@
 | 일정 단건 조회 | GET    | /api/todos/{id} |                                                                      | {   "id": 1,   "userId": 1,   "title": "스터디 하기",   "content": "JPA 복습",   "createdAt": "2025-04-01T12:00:00",   "updatedAt": "2025-04-01T12:00:00" }                            | 200/ok    |
 | 일정 수정      | PUT    | /api/todos/{id} | {   "title": "강의 듣기",   "content": "Spring Boot 인강 수강" }     | {   "id" : 1,   "userId" : 1,   "title": "강의 듣기",   "content": "Spring Boot 인강 수강",   "createdAt": "2025-04-01T12:00:00",   "updatedAt": "2025-04-01T12:00:00"  }              | 200/ok    |
 | 일정 삭제      | DELETE | /api/todos/{id} |                                                                      | 204 No Content                                                                                                                                                                         | 200/ok    |
+
+# 2. erd 다이어그램
+![Image](https://github.com/user-attachments/assets/9eb0bea1-926a-4d9e-b9ea-490a501b0ef4)
