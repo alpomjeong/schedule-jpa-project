@@ -30,4 +30,11 @@ public class UserController {
     public UserResponseDto getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
+
+    @PutMapping("/{id}")
+    public UserResponseDto updateUser(
+            @PathVariable Long id,
+            @RequestBody @Valid UserRequestDto requestDto) {
+        return userService.updateUser(id, requestDto);
+    }
 }

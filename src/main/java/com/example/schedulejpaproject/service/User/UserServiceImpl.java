@@ -52,6 +52,18 @@ public class UserServiceImpl implements UserService {
         return toDto(user);
     }
 
+    @Override
+    public UserResponseDto updateUser(Long id, UserRequestDto requestDto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+
+        user.setUsername(requestDto.getUsername());
+        user.setEmail(requestDto.getEmail());
+
+        User updated = userRepository.save(user);
+        return toDto(updated);
+    }
+
     private UserResponseDto toDto(User user) {
         UserResponseDto dto = new UserResponseDto();
         dto.setId(user.getId());
