@@ -1,16 +1,21 @@
 package com.example.schedulejpaproject.service.User;
 
 import com.example.schedulejpaproject.dto.schedule.ScheduleResponseDto;
+import com.example.schedulejpaproject.dto.user.UserLoginRequestDto;
 import com.example.schedulejpaproject.dto.user.UserRequestDto;
 import com.example.schedulejpaproject.dto.user.UserResponseDto;
+import com.example.schedulejpaproject.dto.user.UserSignupRequestDto;
 import com.example.schedulejpaproject.entity.Schedule;
 import com.example.schedulejpaproject.entity.User;
 import com.example.schedulejpaproject.repository.ScheduleRepository;
 import com.example.schedulejpaproject.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,21 +26,40 @@ public class UserServiceImpl implements UserService {
     private final ScheduleRepository scheduleRepository;
 
     @Override
-    public UserResponseDto createUser(UserRequestDto requestDto) {
+    public UserResponseDto signup(UserSignupRequestDto dto) {
         User user = new User();
-        user.setUsername(requestDto.getUsername());
-        user.setEmail(requestDto.getEmail());
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword()); // 비밀번호 암호화는 추후 적용
 
         User saved = userRepository.save(user);
 
-        UserResponseDto responseDto = new UserResponseDto();
-        responseDto.setId(saved.getId());
-        responseDto.setUsername(saved.getUsername());
-        responseDto.setEmail(saved.getEmail());
-        responseDto.setCreated_at(saved.getCreatedAt());
-        responseDto.setUpdated_at(saved.getUpdatedAt());
+        UserResponseDto res = new UserResponseDto();
+        res.setId(saved.getId());
+        res.setUsername(saved.getUsername());
+        res.setEmail(saved.getEmail());
+        res.setCreated_at(saved.getCreatedAt());
+        res.setUpdated_at(saved.getUpdatedAt());
+        return res;
+    }
 
-        return responseDto;
+    @Override
+    public void login(UserLoginRequestDto dto, HttpServletRequest request) {
+        Optional<User> optionalUser = userRepository.findByEmail(dto.getEmail());
+
+        if (optionalUser.isEmpty()) {
+            throw new IllegalArgumentException("이메일이 존재하지 않습니다.");
+        }
+
+        User user = optionalUser.get();
+
+        if (!user.getPassword().equals(dto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user.getId());
+
     }
 
     @Override

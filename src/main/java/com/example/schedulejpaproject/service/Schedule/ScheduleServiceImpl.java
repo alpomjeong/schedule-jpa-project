@@ -20,9 +20,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final UserRepository userRepository;
 
     @Override
-    public ScheduleResponseDto saveSchedule(ScheduleRequestDto requestDto) {
-        User user = userRepository.findById(requestDto.getUserId())
-                .orElseThrow(()->  new IllegalArgumentException("유저를 찾을 수 없습니다."));
+    public ScheduleResponseDto saveSchedule(ScheduleRequestDto requestDto, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
         Schedule schedule = new Schedule();
         schedule.setTitle(requestDto.getTitle());
@@ -43,23 +43,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleResponseDto> findAllSchedules() {
-        return scheduleRepository.findAll().stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ScheduleResponseDto> getSchedulesByUserId(Long userId) {
-        return scheduleRepository.findByUserId(userId).stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto requestDto) {
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto requestDto, Long userId) {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 일정이 없습니다."));
+
+        if (!schedule.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("수정 권한이 없습니다.");
+        }
 
         schedule.setTitle(requestDto.getTitle());
         schedule.setContent(requestDto.getContent());
@@ -69,10 +59,22 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public void deleteSchedule(Long id) {
+    public void deleteSchedule(Long id, Long userId) {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 일정이 없습니다."));
+
+        if (!schedule.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+        }
+
         scheduleRepository.delete(schedule);
+    }
+
+    @Override
+    public List<ScheduleResponseDto> getSchedulesByUserId(Long userId) {
+        return scheduleRepository.findByUserId(userId).stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
 
