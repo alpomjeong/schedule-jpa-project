@@ -56,6 +56,19 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto requestDto) {
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 일정이 없습니다."));
+
+        schedule.setTitle(requestDto.getTitle());
+        schedule.setContent(requestDto.getContent());
+
+        Schedule updated = scheduleRepository.save(schedule);
+        return toDto(updated);
+    }
+
+
     private ScheduleResponseDto toDto(Schedule schedule) {
         ScheduleResponseDto dto = new ScheduleResponseDto();
         dto.setId(schedule.getId());

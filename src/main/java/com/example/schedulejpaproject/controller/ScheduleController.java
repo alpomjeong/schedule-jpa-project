@@ -31,7 +31,12 @@ public class ScheduleController {
         }
         return scheduleService.findAllSchedules();
     }
-
+    @PutMapping("/{id}")
+    public ScheduleResponseDto updateSchedule(
+            @PathVariable Long id,
+            @RequestBody @Valid ScheduleRequestDto requestDto) {
+        return scheduleService.updateSchedule(id, requestDto);
+    }
 
 }
 

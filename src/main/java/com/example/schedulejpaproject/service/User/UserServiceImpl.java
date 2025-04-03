@@ -64,6 +64,14 @@ public class UserServiceImpl implements UserService {
         return toDto(updated);
     }
 
+    @Override
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+
+        userRepository.delete(user);
+    }
+
     private UserResponseDto toDto(User user) {
         UserResponseDto dto = new UserResponseDto();
         dto.setId(user.getId());

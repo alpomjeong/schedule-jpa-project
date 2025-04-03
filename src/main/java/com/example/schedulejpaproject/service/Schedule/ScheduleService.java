@@ -10,5 +10,6 @@ public interface ScheduleService {
     ScheduleResponseDto saveSchedule(ScheduleRequestDto requestDto);
     List<ScheduleResponseDto> findAllSchedules();
     List<ScheduleResponseDto> getSchedulesByUserId(Long userId);
+    ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto requestDto);
 
 }
