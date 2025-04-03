@@ -68,6 +68,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         return toDto(updated);
     }
 
+    @Override
+    public void deleteSchedule(Long id) {
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 일정이 없습니다."));
+        scheduleRepository.delete(schedule);
+    }
+
 
     private ScheduleResponseDto toDto(Schedule schedule) {
         ScheduleResponseDto dto = new ScheduleResponseDto();

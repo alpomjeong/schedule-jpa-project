@@ -6,6 +6,7 @@ import com.example.schedulejpaproject.dto.schedule.ScheduleResponseDto;
 import com.example.schedulejpaproject.service.Schedule.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,12 @@ public class ScheduleController {
             @PathVariable Long id,
             @RequestBody @Valid ScheduleRequestDto requestDto) {
         return scheduleService.updateSchedule(id, requestDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
+        scheduleService.deleteSchedule(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
