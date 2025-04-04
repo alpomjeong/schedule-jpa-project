@@ -40,7 +40,6 @@
 │       │   └── 📄 UserController.java             # 사용자 관련 API
 │
 │       ├── 📁 dto                                 # 📦 데이터 전달 객체 (DTO)
-│       │   ├── 📁 auth                            # 인증 관련 DTO (현재 없음)
 │       │   ├── 📁 schedule                        # 일정 관련 DTO
 │       │   │   ├── 📄 ScheduleRequestDto.java     # 일정 요청 DTO
 │       │   │   └── 📄 ScheduleResponseDto.java    # 일정 응답 DTO

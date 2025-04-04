@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * 사용자(User) 관련 비즈니스 로직을 구현한 서비스 클래스입니다.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -25,6 +28,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ScheduleRepository scheduleRepository;
 
+    /**
+     * 사용자 회원가입을 처리합니다.
+     *
+     * @param dto 회원가입 요청 데이터
+     * @return 생성된 사용자 정보
+     */
     @Override
     public UserResponseDto signup(UserSignupRequestDto dto) {
         User user = new User();
@@ -43,6 +52,12 @@ public class UserServiceImpl implements UserService {
         return res;
     }
 
+    /**
+     * 사용자 로그인을 처리하고, 세션에 사용자 ID를 저장합니다.
+     *
+     * @param dto     로그인 요청 데이터
+     * @param request HttpServletRequest (세션 저장용)
+     */
     @Override
     public void login(UserLoginRequestDto dto, HttpServletRequest request) {
         Optional<User> optionalUser = userRepository.findByEmail(dto.getEmail());
@@ -62,6 +77,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * 전체 사용자 목록을 조회합니다.
+     *
+     * @return 사용자 응답 DTO 리스트
+     */
     @Override
     public List<UserResponseDto> getAllUsers() {
         return userRepository.findAll().stream()
@@ -69,6 +89,12 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 사용자 ID로 사용자 정보를 조회합니다.
+     *
+     * @param id 사용자 ID
+     * @return 사용자 응답 DTO
+     */
     @Override
     public UserResponseDto getUserById(Long id) {
         User user = userRepository.findById(id)
@@ -76,6 +102,13 @@ public class UserServiceImpl implements UserService {
         return toDto(user);
     }
 
+    /**
+     * 사용자 정보를 수정합니다.
+     *
+     * @param id         사용자 ID
+     * @param requestDto 수정할 사용자 정보
+     * @return 수정된 사용자 응답 DTO
+     */
     @Override
     public UserResponseDto updateUser(Long id, UserRequestDto requestDto) {
         User user = userRepository.findById(id)
@@ -88,6 +121,11 @@ public class UserServiceImpl implements UserService {
         return toDto(updated);
     }
 
+    /**
+     * 사용자 계정을 삭제합니다.
+     *
+     * @param id 사용자 ID
+     */
     @Override
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
@@ -96,6 +134,12 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    /**
+     * User 엔티티를 UserResponseDto로 변환합니다.
+     *
+     * @param user 변환할 사용자 엔티티
+     * @return 사용자 응답 DTO
+     */
     private UserResponseDto toDto(User user) {
         UserResponseDto dto = new UserResponseDto();
         dto.setId(user.getId());
