@@ -20,3 +20,54 @@
 
 # 2. erd 다이어그램
 ![Image](https://github.com/user-attachments/assets/9eb0bea1-926a-4d9e-b9ea-490a501b0ef4)
+
+
+# 3. 프로젝트 구조
+📁 src
+└── 📁 main                         # 애플리케이션의 실제 코드 및 리소스
+├── 📁 java
+│   └── 📁 com.example.schedulejpaproject
+│       ├── 📄 ScheduleJpaProjectApplication.java    # 🚀 애플리케이션 시작점
+│
+│       ├── 📁 auth                                # 🔐 인증 관련 로직
+│       │   └── 📄 LoginFilter.java                # 사용자 로그인 필터
+│
+│       ├── 📁 config                              # 🛠️ 웹 필터 및 전역 설정 관리
+│       │   └── 📄 WebConfig.java                  # 🔐 LoginFilter를 /api/* 경로에 등록하는 설정 클래스
+│
+│       ├── 📁 controller                          # 🌐 API 요청 처리 컨트롤러
+│       │   ├── 📄 ScheduleController.java         # 일정 관련 API
+│       │   └── 📄 UserController.java             # 사용자 관련 API
+│
+│       ├── 📁 dto                                 # 📦 데이터 전달 객체 (DTO)
+│       │   ├── 📁 auth                            # 인증 관련 DTO (현재 없음)
+│       │   ├── 📁 schedule                        # 일정 관련 DTO
+│       │   │   ├── 📄 ScheduleRequestDto.java     # 일정 요청 DTO
+│       │   │   └── 📄 ScheduleResponseDto.java    # 일정 응답 DTO
+│       │   └── 📁 user                            # 사용자 관련 DTO
+│       │       ├── 📄 UserLoginRequestDto.java    # 로그인 요청 DTO
+│       │       ├── 📄 UserRequestDto.java         # 사용자 생성/수정 요청 DTO
+│       │       ├── 📄 UserResponseDto.java        # 사용자 응답 DTO
+│       │       └── 📄 UserSignupRequestDto.java   # 회원가입 요청 DTO
+│
+│       ├── 📁 entity                              # 🧱 DB 엔티티 클래스
+│       │   ├── 📄 BaseTimeEntity.java             # 생성/수정 시간 자동 관리용 추상 클래스
+│       │   ├── 📄 Schedule.java                   # 일정 엔티티
+│       │   └── 📄 User.java                       # 사용자 엔티티
+│
+│       ├── 📁 repository                          # 💾 JPA Repository 인터페이스
+│       │   ├── 📄 ScheduleRepository.java         # 일정 Repository
+│       │   └── 📄 UserRepository.java             # 사용자 Repository
+│
+│       └── 📁 service                             # 🧠 비즈니스 로직 처리
+│           ├── 📁 Schedule
+│           │   ├── 📄 ScheduleService.java        # 일정 서비스 인터페이스
+│           │   └── 📄 ScheduleServiceImpl.java    # 일정 서비스 구현체
+│           └── 📁 User
+│               ├── 📄 UserService.java            # 사용자 서비스 인터페이스
+│               └── 📄 UserServiceImpl.java        # 사용자 서비스 구현체
+│
+└── 📁 resources                                   # 📁 리소스 및 설정 파일
+├── 📄 application.properties                  # 애플리케이션 전역 설정 파일
+├── 📁 static                                  # 정적 파일 (HTML, JS, CSS 등)
+└── 📁 templates                               # Thymeleaf 등 템플릿 파일

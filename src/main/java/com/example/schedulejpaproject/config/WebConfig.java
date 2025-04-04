@@ -12,7 +12,7 @@ public class WebConfig {
     @Bean
     public FilterRegistrationBean<Filter> loginFilter() {
         FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new LoginFilter()); // new LoginFilter 직접 생성
+        registrationBean.setFilter(new LoginFilter());
         registrationBean.addUrlPatterns("/api/*");
         registrationBean.setOrder(1);
         return registrationBean;
