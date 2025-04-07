@@ -23,6 +23,8 @@
 
 
 # 3. 프로젝트 구조
+
+```
 📁 src
 └── 📁 main                         # 애플리케이션의 실제 코드 및 리소스
 ├── 📁 java
@@ -70,3 +72,4 @@
 ├── 📄 application.properties                  # 애플리케이션 전역 설정 파일
 ├── 📁 static                                  # 정적 파일 (HTML, JS, CSS 등)
 └── 📁 templates                               # Thymeleaf 등 템플릿 파일
+```
